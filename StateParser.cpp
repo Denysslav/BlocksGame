@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+#include <unistd.h>
 #include "header/Game.h"
 #include "header/GameObjectFactory.h"
 #include "header/StateParser.h"
@@ -11,6 +12,10 @@
 
 bool StateParser::parseState(const char* stateFile, std::string stateId, std::vector<GameObject*>* objects, std::vector<std::string> *textureIds)
 {
+    char cCurrentPath[FILENAME_MAX];
+    getcwd(cCurrentPath, sizeof(cCurrentPath));
+    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
+    
     TiXmlDocument xmlDoc;
     
     if (!xmlDoc.LoadFile(stateFile))
@@ -50,7 +55,7 @@ bool StateParser::parseState(const char* stateFile, std::string stateId, std::ve
     }
     
     parseObjects(objectRoot, objects);
-    
+
     return true;
 }
 
@@ -82,7 +87,7 @@ void StateParser::parseObjects(TiXmlElement* stateRoot, std::vector<GameObject*>
         e->Attribute("animateSpeed", &animateSpeed);
         
         textureId = e->Attribute("textureId");
-        
+
         GameObject* gameObject = BlockGameObjectFactory::Instance()->create(e->Attribute("type"));
         gameObject->load(new LoaderParams(x, y, w, h, textureId, numFrames, callbackId, animateSpeed));
         

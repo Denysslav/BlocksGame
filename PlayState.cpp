@@ -13,8 +13,9 @@
 #include "header/Game.h"
 #include "header/Player.h"
 #include "header/Ball.h"
+#include "header/StateParser.h"
 
-const std::string PlayState::playId = "PLAY";
+const std::string PlayState::playId = "play";
 
 void PlayState::update()
 {
@@ -39,25 +40,9 @@ void PlayState::render()
 
 bool PlayState::onEnter()
 {
-
-    if (!BlocksTextureManager::Instance()->load("assets/paddle.png", "paddle", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    StateParser stateParser;
     
-    if(!BlocksTextureManager::Instance()->load("assets/ball.png", "ball", BlockGame::Instance()->getRenderer()))
-    {        
-        return false;
-    }
-    
-    GameObject* player = new Player();
-    GameObject* ball = new Ball(false);
-    
-    player->load(new LoaderParams(264, 400, 98, 31, "paddle"));
-    ball->load(new LoaderParams(300, 380, 24, 24, "ball"));
-    
-    gameObjects.push_back(player);
-    gameObjects.push_back(ball);
+    stateParser.parseState("config/states.xml", playId, &gameObjects, &textureIdList);
     
     return true;
 }

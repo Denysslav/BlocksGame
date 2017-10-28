@@ -12,6 +12,9 @@
 #include "header/MainMenuState.h"
 #include "header/PlayState.h"
 #include "header/MenuButton.h"
+#include "header/Player.h"
+#include "header/Ball.h"
+#include "header/AnimatedGraphic.h"
 
 Game* Game::sInstance = 0;
 
@@ -33,6 +36,9 @@ void Game::init(const char* title, int xPosition, int yPosition, int width, int 
                 SDL_SetRenderDrawColor(blocksRenderer, 0, 0, 0, 255);
                 
                 BlockGameObjectFactory::Instance()->registerType("MenuButton", new MenuButtonCreator());
+                BlockGameObjectFactory::Instance()->registerType("Player", new PlayerCreator());
+                BlockGameObjectFactory::Instance()->registerType("Ball", new BallCreator());
+                BlockGameObjectFactory::Instance()->registerType("AnimatedGraphic", new AnimatedGraphicCreator());
                 
                 gameStateMachine = new GameStateMachine();
                 gameStateMachine->pushState(new MainMenuState());
@@ -58,7 +64,7 @@ void Game::handleEvents()
     if (BlockInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
     {
         GameState* currentState = gameStateMachine->getCurrentState();
-        if (currentState->getStateId() == "PLAY")
+        if (currentState->getStateId() == "play")
         {
             PlayState* ps = dynamic_cast<PlayState*>(currentState);
             ps->startMoving(true);

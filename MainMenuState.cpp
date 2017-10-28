@@ -12,7 +12,7 @@
 #include "header/PlayState.h"
 #include "header/MenuButton.h"
 
-const std::string MainMenuState::menuId = "MENU";
+const std::string MainMenuState::menuId = "menu";
 
 void MainMenuState::render()
 {
@@ -34,7 +34,7 @@ bool MainMenuState::onEnter()
 {
     StateParser stateParser;
     
-    stateParser.parseState("~/Edu/V semester/CITB520/BlocksGame/config/states.xml", menuId, &gameObjects, &textureIdList);
+    stateParser.parseState("config/states.xml", menuId, &gameObjects, &textureIdList);
     
     callbacks.push_back(0);
     callbacks.push_back(menuToPlay);

@@ -14,6 +14,7 @@ AnimatedGraphic::AnimatedGraphic() : SDLGameObject()
 void AnimatedGraphic::load(const LoaderParams* params)
 {
     SDLGameObject::load(params);
+    animateSpeed = params->getAnimateSpeed();
 }
 
 void AnimatedGraphic::draw()

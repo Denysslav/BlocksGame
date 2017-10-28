@@ -10,8 +10,9 @@
 #include "header/MenuButton.h"
 #include "header/MainMenuState.h"
 #include "header/PlayState.h"
+#include "header/StateParser.h"
 
-const std::string GameOverState::gameOverId = "GAMEOVER";
+const std::string GameOverState::gameOverId = "gameover";
 
 void GameOverState::render()
 {
@@ -31,32 +32,16 @@ void GameOverState::update()
 
 bool GameOverState::onEnter()
 {
-    if (!BlocksTextureManager::Instance()->load("assets/game_over.png", "gameovertext", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    StateParser stateParser;
     
-    if (!BlocksTextureManager::Instance()->load("assets/main.png", "mainbutton", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    stateParser.parseState("config/states.xml", gameOverId, &gameObjects, &textureIdList);
     
-    if (!BlocksTextureManager::Instance()->load("assets/restart.png", "restartbutton", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    callbacks.push_back(0);
+    callbacks.push_back(gameOverToMain);
+    callbacks.push_back(restartPlay);
     
-    GameObject* gameOverText = new AnimatedGraphic();
-    GameObject* button1 = new MenuButton();
-    GameObject* button2 = new MenuButton();
+    setCallbacks(callbacks);
     
-    gameOverText->load(new LoaderParams(200, 100, 240, 35, "gameovertext", 1, 0, 2));
-    button1->load(new LoaderParams(245, 200, 165, 80, "mainbutton", 1, 0, 0));
-    button2->load(new LoaderParams(240, 300, 175, 80, "restartbutton", 1, 0, 0));
-    
-    gameObjects.push_back(gameOverText);
-    gameObjects.push_back(button1);
-    gameObjects.push_back(button2);
     
     return true;
 }
@@ -84,4 +69,16 @@ void GameOverState::gameOverToMain()
 void GameOverState::restartPlay()
 {
     BlockGame::Instance()->getStateMachine()->changeState(new PlayState());
+}
+
+void GameOverState::setCallbacks(const std::vector<Callback>& callbacks)
+{
+    for (int i = 0; i < gameObjects.size(); i++)
+    {
+        if (dynamic_cast<MenuButton*>(gameObjects[i]))
+        {
+            MenuButton* button = dynamic_cast<MenuButton*>(gameObjects[i]);
+            button->setCallback(callbacks[button->getCallbackId()]);
+        }
+    }
 }

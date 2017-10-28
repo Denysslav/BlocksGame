@@ -20,7 +20,7 @@
 class Ball : public SDLGameObject
 {
     public:
-        Ball(bool begin);
+        Ball();
         virtual void draw();
         virtual void update();
         virtual void clean();
@@ -36,7 +36,7 @@ class BallCreator : public BaseCreator
 {
     GameObject* createGameObject() const
     {
-        return new Ball(false);
+        return new Ball();
     }
 };
 

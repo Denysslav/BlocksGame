@@ -6,12 +6,13 @@
 
 #include "header/Ball.h"
 
-Ball::Ball(bool begin) : SDLGameObject(), gameBegin(begin)
+Ball::Ball() : SDLGameObject()
 {
 }
 
 void Ball::load(const LoaderParams* params)
 {
+    gameBegin = false;
     SDLGameObject::load(params);
 }
 

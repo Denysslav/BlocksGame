@@ -16,10 +16,12 @@
 
 #include<string>
 #include<vector>
+#include "GameObject.h"
+#include "MenuState.h"
 
 class GameObject;
 
-class PauseState : public GameState
+class PauseState : public MenuState
 {
 public:
     virtual void update();
@@ -34,6 +36,8 @@ private:
     static void resumePlay();
     
     static const std::string pauseId;
+    
+    virtual void setCallbacks(const std::vector<Callback>& callbacks);
     
     std::vector<GameObject*> gameObjects;
 };

@@ -2,17 +2,44 @@
 <states>
     <menu>
         <textures>
-            <texture filename="assets/button.png" id="playbutton"/>
+            <texture filename="assets/play.png" id="playbutton"/>
             <texture filename="assets/exit.png" id="exitbutton"/>
         </textures>
         <objects>
-            <object type="MenuButton" x="100" y="100" width="400" height="100" textureID="playbutton" numFrames="0" callbackId="1"/>
-            <object type="MenuButton" x="100" y="300" width="400" height="100" textureID="exitbutton" numFrames="0" callbackId="2"/>
+            <object type="MenuButton" x="230" y="150" width="177" height="42" textureId="playbutton" numFrames="0" callbackId="1" animateSpeed="0"/>
+            <object type="MenuButton" x="230" y="250" width="177" height="42" textureId="exitbutton" numFrames="0" callbackId="2" animateSpeed="0"/>
         </objects>
     </menu>
     <play>
+        <textures>
+            <texture filename="assets/ball.png" id="ball"/>
+            <texture filename="assets/paddle.png" id="paddle"/>
+        </textures>
+        <objects>
+            <object type="Player" x="264" y="400" width="98" height="31" textureId="paddle" numFrames="0" callbackId="0" animateSpeed="0"/>
+            <object type="Ball" x="300" y="380" width="24" height="24" textureId="ball" numFrames="0" callbackId="0" animateSpeed="0"/>
+        </objects>
     </play>
+    <pause>
+        <textures>
+            <texture filename="assets/resume.png" id="resumebutton"/>
+            <texture filename="assets/main.png" id="mainbutton"/>
+        </textures>
+         <objects>
+            <object type="MenuButton" x="230" y="150" width="163" height="62" textureId="mainbutton" numFrames="0" callbackId="1" animateSpeed="0"/>
+            <object type="MenuButton" x="230" y="250" width="161" height="62" textureId="resumebutton" numFrames="0" callbackId="2" animateSpeed="0"/>
+        </objects>
+    </pause>
     <gameover>
-
+        <textures>
+            <texture filename="assets/game_over.png" id="gameovertext"/>
+            <texture filename="assets/main.png" id="mainbutton"/>
+            <texture filename="assets/restart.png" id="restartbutton"/>
+        </textures>
+        <objects>
+            <object type="AnimatedGraphic" x="200" y="100" width="238" height="36" textureId="gameovertext" numFrames="2" callbackId="0" animateSpeed="2"/>
+            <object type="MenuButton" x="245" y="200" width="163" height="62" textureId="mainbutton" numFrames="0" callbackId="1" animateSpeed="0"/>
+            <object type="MenuButton" x="240" y="300" width="173" height="69" textureId="restartbutton" numFrames="0" callbackId="2" animateSpeed="0"/>
+        </objects>
     </gameover>
 </states>

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+#include<iostream>
 #include <string>
 
 #include "header/MainMenuState.h"
@@ -11,8 +12,9 @@
 #include "header/Game.h"
 #include "header/TextureManager.h"
 #include "header/MenuButton.h"
+#include "header/StateParser.h"
 
-const std::string PauseState::pauseId = "PAUSE";
+const std::string PauseState::pauseId = "pause";
 
 void PauseState::pauseToMain()
 {
@@ -42,25 +44,16 @@ void PauseState::render()
 
 bool PauseState::onEnter()
 {
-    if (!BlocksTextureManager::Instance()->load("assets/resume.png", "resumebutton", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    StateParser stateParser;
     
-    if (!BlocksTextureManager::Instance()->load("assets/main.png", "mainbutton", BlockGame::Instance()->getRenderer()))
-    {
-        return false;
-    }
+    stateParser.parseState("config/states.xml", pauseId, &gameObjects, &textureIdList);
+
+    callbacks.push_back(0);
+    callbacks.push_back(pauseToMain);
+    callbacks.push_back(resumePlay);
     
-    GameObject* button1 = new MenuButton();
-    GameObject* button2 = new MenuButton();
-    
-    button1->load(new LoaderParams(230, 190, 163, 65, "mainbutton", 1, 0, 0));
-    button2->load(new LoaderParams(230, 290, 160, 65, "resumebutton", 1, 0, 0));
-    
-    gameObjects.push_back(button1);
-    gameObjects.push_back(button2);
-    
+    setCallbacks(callbacks);
+
     return true;
 }
 
@@ -77,6 +70,18 @@ bool PauseState::onExit()
     }
     
     return true;
+}
+
+void PauseState::setCallbacks(const std::vector<Callback>& callbacks)
+{
+    for (int i = 0; i < gameObjects.size(); i++)
+    {
+        if (dynamic_cast<MenuButton*>(gameObjects[i]))
+        {
+            MenuButton* button = dynamic_cast<MenuButton*>(gameObjects[i]);
+            button->setCallback(callbacks[button->getCallbackId()]);
+        }
+    }
 }
 
 std::string PauseState::getStateId() const
