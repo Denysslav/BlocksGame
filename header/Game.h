@@ -38,6 +38,16 @@ class Game
             return isRunning;
         }
 
+        int getGameWidth() const
+        {
+            return gameWidth;
+        }
+        
+        int getGameHeight() const
+        {
+            return gameHeight;
+        }
+        
         GameStateMachine* getStateMachine();
         
         static Game* Instance()
@@ -64,6 +74,9 @@ class Game
         GameStateMachine* gameStateMachine;
         
         int currentFrame;
+        int gameWidth;
+        int gameHeight;
+        
         bool isRunning;
 };
 

@@ -14,6 +14,7 @@
 #include "header/Player.h"
 #include "header/Ball.h"
 #include "header/StateParser.h"
+#include "header/LevelParser.h"
 
 const std::string PlayState::playId = "play";
 
@@ -24,26 +25,32 @@ void PlayState::update()
         BlockGame::Instance()->getStateMachine()->pushState(new PauseState());
     }
     
-    for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
-    {
-        gameObjects[i]->update();
-    }
+//    for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
+//    {
+//        gameObjects[i]->update();
+//    }
+    
+    level->update();
 }
 
 void PlayState::render()
 {
-    for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
-    {
-        gameObjects[i]->draw();
-    }
+    level->render();
+
+//    for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
+//    {
+//        gameObjects[i]->draw();
+//    }
 }
 
 bool PlayState::onEnter()
 {
     StateParser stateParser;
+    LevelParser levelParser;
     
-    stateParser.parseState("config/states.xml", playId, &gameObjects, &textureIdList);
-    
+//    stateParser.parseState("config/states.xml", playId, &gameObjects, &textureIdList);
+    level = levelParser.parseLevel("config/level1.tmx");
+
     return true;
 }
 
@@ -89,10 +96,10 @@ bool PlayState::checkCollision(SDLGameObject* p1, SDLGameObject* p2)
 
 void PlayState::startMoving(bool begin)
 {
-    Player* p = dynamic_cast<Player*>(gameObjects[0]);
-    p->setGameBegin(true);
-    
-    Ball* b = dynamic_cast<Ball*>(gameObjects[1]);
-    b->setGameBegin(true);
+//    Player* p = dynamic_cast<Player*>(gameObjects[0]);
+//    p->setGameBegin(true);
+//    
+//    Ball* b = dynamic_cast<Ball*>(gameObjects[1]);
+//    b->setGameBegin(true);
     
 }

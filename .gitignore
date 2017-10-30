@@ -2,3 +2,6 @@
 /dist
 /nbproject
 .dep.inc
+/zlib-1.2.11
+/header/base64.h
+base64.cpp

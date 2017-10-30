@@ -41,6 +41,17 @@ class TextureManager
                        int currentFrame,
                        SDL_Renderer* renderer);
 
+        void drawTile(std::string id,
+                      int margin,
+                      int spacing,
+                      int x,
+                      int y,
+                      int width,
+                      int height,
+                      int currentRow,
+                      int currentFrame,
+                      SDL_Renderer* renderer);
+        
         void clearFromTextureMap(std::string id);
 
         static TextureManager* Instance()

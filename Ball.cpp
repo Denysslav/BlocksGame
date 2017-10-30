@@ -29,11 +29,14 @@ void Ball::update()
     {
         if (position.getY() < 0)
         {
-             velocity.setY(1.);
+            velocity.setX(0.5);
+             velocity.setY(1.5);
         } 
         else if (position.getY() >= 380)
         {
-             velocity.setY(-1.);
+            velocity.setX(-0.5);
+
+            velocity.setY(-1.5);
         }
     }
 

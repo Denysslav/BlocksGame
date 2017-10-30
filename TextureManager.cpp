@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+#include<iostream>
 #include "header/TextureManager.h"
 #include "SDL2/SDL_image.h"
 
@@ -70,6 +71,31 @@ void TextureManager::drawFrame(std::string id,
     destRect.x = xPosition;
     destRect.y = yPosition;
 
+    SDL_RenderCopy(renderer, textureMap[id], &srcRect, &destRect);
+}
+
+void TextureManager::drawTile(std::string id, 
+                             int margin, 
+                             int spacing, 
+                             int x, 
+                             int y, 
+                             int width, 
+                             int height, 
+                             int currentRow, 
+                             int currentFrame, 
+                             SDL_Renderer* renderer)
+{
+
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
+    
+    srcRect.x = margin + (spacing + width) * currentFrame;
+    srcRect.y = margin + (spacing + height) * currentRow;
+    srcRect.w = destRect.w = width;
+    srcRect.h = destRect.h = height;
+    destRect.x = x;
+    destRect.y = y;
+    
     SDL_RenderCopy(renderer, textureMap[id], &srcRect, &destRect);
 }
 

@@ -28,6 +28,10 @@ class Player : public SDLGameObject
         virtual void load(const LoaderParams* params);
         
         void setGameBegin(bool begin);
+        bool getGameBegin()
+        {
+            return gameBegin;
+        }
     private:
         bool gameBegin;
 };

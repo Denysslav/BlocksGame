@@ -30,6 +30,11 @@ class SDLGameObject : public GameObject
         virtual void load(const LoaderParams* params);
         
         Vector2D& getPosition();
+        Vector2D getVelocity()
+        {
+            return velocity;
+        }
+        
         int getWidth();
         int getHeight();
         

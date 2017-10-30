@@ -33,6 +33,9 @@ void Game::init(const char* title, int xPosition, int yPosition, int width, int 
             blocksRenderer = SDL_CreateRenderer(blocksWindow, -1, 0);
             if (blocksRenderer != 0)
             {
+                gameWidth = width;
+                gameHeight = height;
+                
                 SDL_SetRenderDrawColor(blocksRenderer, 0, 0, 0, 255);
                 
                 BlockGameObjectFactory::Instance()->registerType("MenuButton", new MenuButtonCreator());
@@ -61,15 +64,6 @@ void Game::render()
 void Game::handleEvents()
 {
     BlockInputHandler::Instance()->update();
-    if (BlockInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
-    {
-        GameState* currentState = gameStateMachine->getCurrentState();
-        if (currentState->getStateId() == "play")
-        {
-            PlayState* ps = dynamic_cast<PlayState*>(currentState);
-            ps->startMoving(true);
-        }
-    }
 }
 
 void Game::update()
