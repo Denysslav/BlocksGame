@@ -17,7 +17,7 @@
         </textures>
         <objects>
             <object type="Player" x="264" y="400" width="98" height="31" textureId="paddle" numFrames="0" callbackId="0" animateSpeed="0"/>
-            <object type="Ball" x="300" y="380" width="24" height="24" textureId="ball" numFrames="0" callbackId="0" animateSpeed="0"/>
+            <object type="Ball" x="303" y="384" width="18" height="19" textureId="ball" numFrames="0" callbackId="0" animateSpeed="0"/>
         </objects>
     </play>
     <pause>

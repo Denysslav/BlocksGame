@@ -30,9 +30,29 @@ class SDLGameObject : public GameObject
         virtual void load(const LoaderParams* params);
         
         Vector2D& getPosition();
+        void setPositionX(float x)
+        {
+            position.setX(x);
+        }
+        
+        void setPositionY(float y)
+        {
+            position.setY(y);
+        }
+        
         Vector2D getVelocity()
         {
             return velocity;
+        }
+        
+        void setVelocityX(float x)
+        {
+            velocity.setX(x);
+        }
+        
+        void setVelocityY(float y)
+        {
+            velocity.setY(y);
         }
         
         int getWidth();

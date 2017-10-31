@@ -64,6 +64,15 @@ void Game::render()
 void Game::handleEvents()
 {
     BlockInputHandler::Instance()->update();
+    if (BlockInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
+    {
+        GameState* currentState = gameStateMachine->getCurrentState();
+        if (currentState->getStateId() == "play")
+        {
+            PlayState* ps = dynamic_cast<PlayState*>(currentState);
+            ps->startMoving(true);
+        }
+    }
 }
 
 void Game::update()

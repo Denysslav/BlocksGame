@@ -19,6 +19,7 @@
 #include "GameObject.h"
 #include "SDLGameObject.h"
 #include "Level.h"
+#include "CollisionManager.h"
 
 class PlayState : public GameState
 {
@@ -37,8 +38,11 @@ class PlayState : public GameState
         void startMoving(bool begin);
     private:
         static const std::string playId;
+        
         std::vector<GameObject*> gameObjects;
+        
         Level* level;
+        CollisionManager collisionManager;
 };
 
 #endif /* PLAYSTATE_H */

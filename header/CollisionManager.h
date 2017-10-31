@@ -17,10 +17,17 @@
 #include<vector>
 #include "Layer.h"
 #include "Ball.h"
+#include "Player.h"
+
 class CollisionManager
 {
 public:
     void checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers);
+    void checkBallWallCollision(Ball* ball);
+    bool checkBallPaddleCollision(Ball* ball, Player* paddle);
+    
+private:
+    bool checkRectangleCollision(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2);
 };
 
 #endif /* COLLISIONMANAGER_H */

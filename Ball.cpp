@@ -27,17 +27,10 @@ void Ball::update()
 {
     if (gameBegin)
     {
-        if (position.getY() < 0)
-        {
-            velocity.setX(0.5);
-             velocity.setY(1.5);
-        } 
-        else if (position.getY() >= 380)
-        {
-            velocity.setX(-0.5);
-
-            velocity.setY(-1.5);
-        }
+//        if (position.getY() >= 390)
+//        {
+//            velocity.setY(-1.5);
+//        }
     }
 
     SDLGameObject::update();
@@ -50,4 +43,5 @@ void Ball::clean()
 void Ball::setGameBegin(bool begin)
 {
     gameBegin = begin;
+    velocity.setY(-1.5);
 }

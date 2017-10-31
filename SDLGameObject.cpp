@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+#include<iostream>
 #include<string>
 #include "header/SDLGameObject.h"
 #include "header/Game.h"
@@ -42,7 +43,7 @@ void SDLGameObject::draw()
 void SDLGameObject::update()
 {
     velocity += acceleration;
-    position += velocity;
+    position += velocity;    
 }
 
 void SDLGameObject::clean(){}

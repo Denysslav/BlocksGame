@@ -8,6 +8,7 @@
 #include "header/Player.h"
 #include "header/InputHandler.h"
 #include "header/Vector2D.h"
+#include "header/Game.h"
 
 Player::Player() : SDLGameObject()
 {
@@ -33,10 +34,19 @@ void Player::update()
     {
         Vector2D* vec = BlockInputHandler::Instance()->getMousePosition();
 
-        velocity.setX((vec->getX() - position.getX()) / 50);
-
-        SDLGameObject::update();
+        if (position.getX() >= BlockGame::Instance()->getGameWidth() - width
+                || position.getX() <= 0)
+        {
+            position.setX(BlockGame::Instance()->getGameWidth() - (width + 1));
+            velocity.setX(-0.1);
+        }
+        else
+        {
+            velocity.setX((vec->getX() - position.getX()) / 25);        
+        }
     }
+ 
+    SDLGameObject::update();
     
 }
 

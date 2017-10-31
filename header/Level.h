@@ -18,6 +18,7 @@
 #include<vector>
 #include "Layer.h"
 #include "Ball.h"
+#include "Player.h"
 
 struct Tileset
 {
@@ -65,11 +66,22 @@ public:
         return ball;
     }
     
+    void setPaddle(Player* p)
+    {
+        paddle = p;
+    }
+    
+    Player* getPaddle()
+    {
+        return paddle;
+    }
+    
 private:
     Level(){};
     friend class LevelParser;
     
     Ball* ball;
+    Player* paddle;
     
     std::vector<Tileset> tilesets;
     std::vector<Layer*> layers;
