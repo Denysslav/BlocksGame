@@ -25,7 +25,7 @@ public:
 private:
     void parseTextures(TiXmlElement* textureRoot);
     void parseTilesets(TiXmlElement* tilesetRoot, std::vector<Tileset>* tilesets);
-    void parseTileLayer(TiXmlElement* tileElement,  std::vector<Layer*> *layers, const std::vector<Tileset>* tilesets);
+    int parseTileLayer(TiXmlElement* tileElement,  std::vector<Layer*> *layers, const std::vector<Tileset>* tilesets);
     void parseObjectLayer(TiXmlElement* objectElement, std::vector<Layer*> *layers, Level* level);
     
     int tileSize;

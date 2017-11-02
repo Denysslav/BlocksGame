@@ -39,6 +39,7 @@ class PlayState : public GameState
     private:
         static const std::string playId;
         
+        static int currentLevel;
         std::vector<GameObject*> gameObjects;
         
         Level* level;

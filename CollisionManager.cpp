@@ -11,7 +11,7 @@
 #include "header/SDLGameObject.h"
 #include "header/TileLayer.h"
 
-void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers)
+void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers, int &brickCount)
 {
     if (!ball->getGameBegin())
     {
@@ -26,6 +26,8 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
     float ballTopY = ball->getPosition().getY();
     float ballBottomX = ball->getPosition().getX() + ball->getWidth() / 2;
     float ballBottomY = ball->getPosition().getY() + ball->getHeight();
+    
+    int& bc = const_cast<int&>(brickCount);
     
     bool isMovingUp = false;
     for (int i = 0; i < tileLayers.size(); i++)
@@ -56,24 +58,28 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
 
         if (tiles[tileRow][tileColumn] != 0)
         {
+            bc -= 1;
             tiles[tileRow][tileColumn] = 0;
             ball->setVelocityY(ball->getVelocity().getY() * -1.);
         }
         
         if (tiles[tileRow2][tileColumn2] != 0)
         {
+            bc -= 1;
             tiles[tileRow2][tileColumn2] = 0;
             ball->setVelocityY(ball->getVelocity().getY() * -1.);
         }
         
         if (tiles[tileRow3][tileColumn3] != 0)
         {
+            bc -= 1;
             tiles[tileRow3][tileColumn3] = 0;
             ball->setVelocityX(ball->getVelocity().getX() * -1.);
         }
         
         if (tiles[tileRow4][tileColumn4] != 0)
         {
+            bc -= 1;
             tiles[tileRow4][tileColumn4] = 0;
             ball->setVelocityX(ball->getVelocity().getX() * -1.);
         }
@@ -86,15 +92,15 @@ void CollisionManager::checkBallWallCollision(Ball* ball, Player* paddle)
 {
     if (!ball->getGameBegin()) { return; }
     
-    if ((ball->getVelocity().getX() < 0 && ball->getPosition().getX() <= 0)
-            || (ball->getVelocity().getX() > 0 && ball->getPosition().getX() >= BlockGame::Instance()->getGameWidth() - ball->getWidth()))
+    if (((ball->getVelocity().getX() < 0) && (ball->getPosition().getX() <= 0))
+            || ((ball->getVelocity().getX() > 0) && (ball->getPosition().getX() > BlockGame::Instance()->getGameWidth() - ball->getWidth())))
     {
         ball->setVelocityX(ball->getVelocity().getX() * -1.);
     }
     
-    if (ball->getVelocity().getY() < 0 && ball->getPosition().getY() <= 0)
+    if ((ball->getVelocity().getY() < 0) && (ball->getPosition().getY() <= 0))
     {
-        ball->setVelocityY(ball->getVelocity().getX() * -1.);
+        ball->setVelocityY(ball->getVelocity().getY() * -1.);
     }
     
     if (ball->getPosition().getY() >= BlockGame::Instance()->getGameHeight() - ball->getHeight())
@@ -138,10 +144,17 @@ bool CollisionManager::checkBallPaddleCollision(Ball* ball, Player* paddle)
     {
         if ((ballX <= paddleX + paddleWidth) && (ballX + ballWidth >= paddleX))
         {
-            float paddleCenter = paddleX + paddleWidth / 2;
-            float ballCenter = ballX + ballWidth / 2;
-            
-            ball->setVelocityX((ballCenter - paddleCenter) / 10);
+            float ballCenterX = ball->getPosition().getX() + ball->getWidth() / 2;
+            float paddleCenterX = paddle->getPosition().getX() + paddle->getWidth() / 2;
+            float speedX = ball->getVelocity().getX();
+            float speedY = ball->getVelocity().getY();
+
+            float speedXY = sqrt(speedX * speedX + speedY * speedY);
+            float posX = (ballCenterX - paddleCenterX) / (paddle->getWidth() / 2);
+            float influenceX = 1.;
+
+            speedX = speedXY * posX * influenceX;
+            ball->setVelocityX(speedX);
             ball->setVelocityY(ball->getVelocity().getY() * -1.);
             
             return true;

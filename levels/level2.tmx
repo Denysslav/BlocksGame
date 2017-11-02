@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2017.10.11" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextobjectid="7">
+ <tileset firstgid="1" name="brick_sprite" tilewidth="32" tileheight="32" tilecount="6" columns="6">
+  <image source="assets/brick_sprite.png" width="220" height="33"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi5gJFMjM88ctxASI4Ud9HbfdQMv1EwCggBAIeoAC0=
+  </data>
+ </layer>
+</map>

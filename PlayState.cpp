@@ -16,6 +16,7 @@
 #include "header/StateParser.h"
 #include "header/LevelParser.h"
 
+int PlayState::currentLevel = 1;
 const std::string PlayState::playId = "play";
 
 void PlayState::update()
@@ -33,9 +34,45 @@ void PlayState::update()
         BlockGame::Instance()->getStateMachine()->changeState(new GameOverState());
     }
     
+    int bc = level->getBricksCount();
+    
     collisionManager.checkBallWallCollision(ball, paddle);
     collisionManager.checkBallPaddleCollision(ball, paddle);
-    collisionManager.checkBallBrickCollision(ball, level->getCollidableLayers());
+    collisionManager.checkBallBrickCollision(ball, level->getCollidableLayers(), bc);
+    
+    std::cout << bc << std::endl;
+    if (bc == 0)
+    {
+        currentLevel += 1;
+        LevelParser levelParser;
+    
+        std::string levelDir = "levels/level";
+
+        char levelNum[2];
+        sprintf(levelNum, "%d", currentLevel);
+
+        std::string levelNumStr(levelNum);
+        std::string levelExt = ".tmx";
+
+        std::string fullLevelName = levelDir + levelNumStr + levelExt;
+        level = levelParser.parseLevel(fullLevelName.c_str());
+
+        ball->setPositionX((BlockGame::Instance()->getGameWidth() / 2) - (ball->getWidth() / 2));
+        ball->setPositionY(384.);
+        ball->setVelocityX(0.);
+        ball->setVelocityY(0.);
+        ball->setGameBegin(false);
+        
+        paddle->setPositionX((BlockGame::Instance()->getGameWidth() / 2) - (paddle->getWidth() / 2));
+        paddle->setPositionY(400.);
+        paddle->setVelocityX(0.);
+        paddle->setVelocityY(0.);
+        paddle->setGameBegin(false);
+    }
+    else
+    {
+        level->setBricksCount(bc);
+    }
     
     for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
     {
@@ -60,8 +97,18 @@ bool PlayState::onEnter()
     StateParser stateParser;
     LevelParser levelParser;
     
+    std::string levelDir = "levels/level";
+    
+    char levelNum[2];
+    sprintf(levelNum, "%d", currentLevel);
+    
+    std::string levelNumStr(levelNum);
+    std::string levelExt = ".tmx";
+    
+    std::string fullLevelName = levelDir + levelNumStr + levelExt;
+    
     stateParser.parseState("config/states.xml", playId, &gameObjects, &textureIdList);
-    level = levelParser.parseLevel("config/level1.tmx");
+    level = levelParser.parseLevel(fullLevelName.c_str());
 
     return true;
 }

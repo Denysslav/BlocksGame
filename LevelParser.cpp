@@ -52,7 +52,8 @@ Level* LevelParser::parseLevel(const char* levelFile)
         {
             if (e->FirstChildElement()->Value() == std::string("data"))
             {
-                parseTileLayer(e, level->getLayers(), level->getTilesets());
+                int bricks = parseTileLayer(e, level->getLayers(), level->getTilesets());
+                level->setBricksCount(bricks);
             }
         }
     }
@@ -92,7 +93,7 @@ void LevelParser::parseTilesets(TiXmlElement* tilesetRoot, std::vector<Tileset>*
     tilesets->push_back(tileset);
 }
 
-void LevelParser::parseTileLayer(TiXmlElement* tileElement, std::vector<Layer*>* layers, const std::vector<Tileset>* tilesets)
+int LevelParser::parseTileLayer(TiXmlElement* tileElement, std::vector<Layer*>* layers, const std::vector<Tileset>* tilesets)
 {
     TileLayer* tilelayer = new TileLayer(tileSize, *tilesets);
     
@@ -127,15 +128,21 @@ void LevelParser::parseTileLayer(TiXmlElement* tileElement, std::vector<Layer*>*
         data.push_back(layerRow);
     }
     
+    int bricksCount = 0;
     for (int rows = 0; rows < height; rows++)
     {
         for (int cols = 0; cols < width; cols++)
         {
             data[rows][cols] = gids[rows * width + cols];
+            if (data[rows][cols] != 0)
+            {
+                bricksCount++;
+            }
         }
     }
     
     tilelayer->setTileIds(data);
     layers->push_back(tilelayer);
 
+    return bricksCount;
 }

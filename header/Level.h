@@ -76,9 +76,21 @@ public:
         return paddle;
     }
     
+    void setBricksCount(int bircksCount)
+    {
+        bricks = bircksCount;
+    }
+    
+    int getBricksCount()
+    {
+        return bricks;
+    }
+    
 private:
     Level(){};
     friend class LevelParser;
+    
+    int bricks;
     
     Ball* ball;
     Player* paddle;
