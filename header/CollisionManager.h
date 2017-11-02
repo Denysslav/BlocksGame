@@ -23,7 +23,7 @@ class CollisionManager
 {
 public:
     void checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers);
-    void checkBallWallCollision(Ball* ball);
+    void checkBallWallCollision(Ball* ball, Player* paddle);
     bool checkBallPaddleCollision(Ball* ball, Player* paddle);
     
 private:

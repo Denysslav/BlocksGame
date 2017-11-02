@@ -10,6 +10,7 @@
 #include "header/Vector2D.h"
 #include "header/Game.h"
 
+
 Player::Player() : SDLGameObject()
 {
     gameBegin = false;
@@ -18,6 +19,8 @@ Player::Player() : SDLGameObject()
 
 void Player::load(const LoaderParams* params)
 {
+    lives = 3;
+    
     SDLGameObject::load(params);
 }
 

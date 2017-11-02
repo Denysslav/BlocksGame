@@ -32,7 +32,23 @@ class Player : public SDLGameObject
         {
             return gameBegin;
         }
+        
+        void setPlayerLives(int life)
+        {
+            if (life > 3)
+            {
+                life = 3;
+            }
+            
+            lives = life;
+        }
+        
+        int getPlayerLives()
+        {
+            return lives;
+        }
     private:
+        int lives;
         bool gameBegin;
 };
 

@@ -20,14 +20,22 @@ const std::string PlayState::playId = "play";
 
 void PlayState::update()
 {
+    Ball* ball = dynamic_cast<Ball*>(gameObjects[1]);
+    Player* paddle = dynamic_cast<Player*>(gameObjects[0]);
+    
     if (BlockInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
     {
         BlockGame::Instance()->getStateMachine()->pushState(new PauseState());
     }
     
-    collisionManager.checkBallWallCollision(dynamic_cast<Ball*>(gameObjects[1]));
-    collisionManager.checkBallPaddleCollision(dynamic_cast<Ball*>(gameObjects[1]), dynamic_cast<Player*>(gameObjects[0]));
-    collisionManager.checkBallBrickCollision(dynamic_cast<Ball*>(gameObjects[1]), level->getCollidableLayers());
+    if (paddle->getPlayerLives() == 0)
+    {
+        BlockGame::Instance()->getStateMachine()->changeState(new GameOverState());
+    }
+    
+    collisionManager.checkBallWallCollision(ball, paddle);
+    collisionManager.checkBallPaddleCollision(ball, paddle);
+    collisionManager.checkBallBrickCollision(ball, level->getCollidableLayers());
     
     for(std::vector<GameObject*>::size_type i = 0; i != gameObjects.size(); i++)
     {

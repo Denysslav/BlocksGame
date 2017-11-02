@@ -27,13 +27,9 @@ void Ball::update()
 {
     if (gameBegin)
     {
-//        if (position.getY() >= 390)
-//        {
-//            velocity.setY(-1.5);
-//        }
+        SDLGameObject::update();
     }
 
-    SDLGameObject::update();
 }
 
 void Ball::clean()
