@@ -21,6 +21,7 @@ const std::string PlayState::playId = "play";
 
 void PlayState::update()
 {
+    bool ballWallCollision = false;
     Ball* ball = dynamic_cast<Ball*>(gameObjects[1]);
     Player* paddle = dynamic_cast<Player*>(gameObjects[0]);
     
@@ -36,9 +37,12 @@ void PlayState::update()
     
     int bc = level->getBricksCount();
     
-    collisionManager.checkBallWallCollision(ball, paddle);
+    ballWallCollision = collisionManager.checkBallWallCollision(ball, paddle);
     collisionManager.checkBallPaddleCollision(ball, paddle);
-    collisionManager.checkBallBrickCollision(ball, level->getCollidableLayers(), bc);
+    if (!ballWallCollision)
+    {
+        collisionManager.checkBallBrickCollision(ball, level->getCollidableLayers(), bc);
+    }
     
     std::cout << bc << std::endl;
     if (bc == 0)

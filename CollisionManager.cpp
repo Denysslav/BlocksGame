@@ -88,19 +88,21 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
     }
 }
 
-void CollisionManager::checkBallWallCollision(Ball* ball, Player* paddle)
+bool CollisionManager::checkBallWallCollision(Ball* ball, Player* paddle)
 {
-    if (!ball->getGameBegin()) { return; }
+    if (!ball->getGameBegin()) { return false; }
     
     if (((ball->getVelocity().getX() < 0) && (ball->getPosition().getX() <= 0))
             || ((ball->getVelocity().getX() > 0) && (ball->getPosition().getX() > BlockGame::Instance()->getGameWidth() - ball->getWidth())))
     {
         ball->setVelocityX(ball->getVelocity().getX() * -1.);
+        return true;
     }
     
     if ((ball->getVelocity().getY() < 0) && (ball->getPosition().getY() <= 0))
     {
         ball->setVelocityY(ball->getVelocity().getY() * -1.);
+        return true;
     }
     
     if (ball->getPosition().getY() >= BlockGame::Instance()->getGameHeight() - ball->getHeight())
@@ -118,7 +120,10 @@ void CollisionManager::checkBallWallCollision(Ball* ball, Player* paddle)
         paddle->setGameBegin(false);
         
         paddle->setPlayerLives(paddle->getPlayerLives() - 1);
+        return true;
     }
+    
+    return false;
 }
 
 bool CollisionManager::checkBallPaddleCollision(Ball* ball, Player* paddle)
