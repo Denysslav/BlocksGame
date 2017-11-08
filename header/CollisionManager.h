@@ -22,11 +22,14 @@
 class CollisionManager
 {
 public:
-    void checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers, int &brickCount);
+    CollisionManager();
+    int checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers, int &brickCount);
     bool checkBallWallCollision(Ball* ball, Player* paddle);
     bool checkBallPaddleCollision(Ball* ball, Player* paddle);
     
 private:
+    std::vector<int> brickWeights;
+    
     bool checkRectangleCollision(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2);
 };
 

@@ -20,6 +20,7 @@ Player::Player() : SDLGameObject()
 void Player::load(const LoaderParams* params)
 {
     lives = 3;
+    score = 0;
     
     SDLGameObject::load(params);
 }

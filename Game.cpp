@@ -22,6 +22,8 @@ void Game::init(const char* title, int xPosition, int yPosition, int width, int 
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
     {
+        TTF_Init();
+
         blocksWindow = SDL_CreateWindow(title,
                                         xPosition,
                                         yPosition,
@@ -38,6 +40,10 @@ void Game::init(const char* title, int xPosition, int yPosition, int width, int 
                 
                 SDL_SetRenderDrawColor(blocksRenderer, 0, 0, 0, 255);
                 
+                BlockSoundManager::Instance()->load("brick_hit.wav", "brick_hit");
+                BlockSoundManager::Instance()->load("paddle_hit.wav", "paddle_hit");
+                BlockSoundManager::Instance()->load("wall_hit.wav", "wall_hit");
+
                 BlockGameObjectFactory::Instance()->registerType("MenuButton", new MenuButtonCreator());
                 BlockGameObjectFactory::Instance()->registerType("Player", new PlayerCreator());
                 BlockGameObjectFactory::Instance()->registerType("Ball", new BallCreator());
@@ -86,6 +92,7 @@ void Game::clean()
 
     SDL_DestroyWindow(blocksWindow);
     SDL_DestroyRenderer(blocksRenderer);
+    TTF_Init();
     SDL_Quit();
     
     isRunning = false;

@@ -28,7 +28,6 @@ class PlayState : public GameState
         virtual void render();
         virtual bool onEnter();
         virtual bool onExit();
-        bool checkCollision(SDLGameObject* p1, SDLGameObject* p2);
         
         virtual std::string getStateId() const 
         { 
@@ -37,10 +36,15 @@ class PlayState : public GameState
         
         void startMoving(bool begin);
     private:
+        void checkCollision();
+        void resetStateDefault(Ball* ball, Player* paddle);
+        
         static const std::string playId;
+        static const int maxLevel;
         
         static int currentLevel;
         std::vector<GameObject*> gameObjects;
+        std::vector<SDL_Rect> textObjects;
         
         Level* level;
         CollisionManager collisionManager;

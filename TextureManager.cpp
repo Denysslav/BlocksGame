@@ -7,6 +7,7 @@
 #include<iostream>
 #include "header/TextureManager.h"
 #include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 
 TextureManager* TextureManager::sInstance = 0;
 
@@ -97,6 +98,26 @@ void TextureManager::drawTile(std::string id,
     destRect.y = y;
     
     SDL_RenderCopy(renderer, textureMap[id], &srcRect, &destRect);
+}
+
+void TextureManager::drawText(int x, int y, char* content, SDL_Rect* rect, SDL_Renderer* renderer)
+{
+    
+    TTF_Font* ttfFont = TTF_OpenFont("font/OpenSans.ttf", 24);
+    SDL_Color white = {255,255,255};
+    
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(ttfFont, content, white);
+    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+    rect->x = x;
+    rect->y = y;
+    rect->w = surfaceMessage->w;
+    rect->h = surfaceMessage->h;
+    
+    SDL_FreeSurface(surfaceMessage);
+    SDL_RenderCopy(renderer, message, NULL, rect);
+    SDL_DestroyTexture(message);
+    TTF_CloseFont(ttfFont);
 }
 
 void TextureManager::clearFromTextureMap(std::string id)

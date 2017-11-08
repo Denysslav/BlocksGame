@@ -52,6 +52,8 @@ class TextureManager
                       int currentFrame,
                       SDL_Renderer* renderer);
         
+        void drawText(int x, int y, char* content, SDL_Rect* rect, SDL_Renderer* renderer);
+        
         void clearFromTextureMap(std::string id);
 
         static TextureManager* Instance()

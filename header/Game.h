@@ -17,9 +17,11 @@
 #include<vector>
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "GameStateMachine.h"
+#include "SoundManager.h"
 
 class Game
 {

@@ -11,11 +11,19 @@
 #include "header/SDLGameObject.h"
 #include "header/TileLayer.h"
 
-void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers, int &brickCount)
+CollisionManager::CollisionManager()
+{
+    brickWeights.push_back(0);
+    brickWeights.push_back(10);
+    brickWeights.push_back(20);
+    brickWeights.push_back(30);
+
+}
+int CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Layer*>& tileLayers, int &brickCount)
 {
     if (!ball->getGameBegin())
     {
-        return;
+        return false;
     }
     
     float ballLeftX = ball->getPosition().getX();
@@ -29,7 +37,7 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
     
     int& bc = const_cast<int&>(brickCount);
     
-    bool isMovingUp = false;
+    int hasCollision = 0;
     for (int i = 0; i < tileLayers.size(); i++)
     {
         TileLayer* tileLayer;
@@ -58,13 +66,16 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
 
         if (tiles[tileRow][tileColumn] != 0)
         {
+            hasCollision = brickWeights[tiles[tileRow][tileColumn]];
             bc -= 1;
+            
             tiles[tileRow][tileColumn] = 0;
             ball->setVelocityY(ball->getVelocity().getY() * -1.);
         }
         
         if (tiles[tileRow2][tileColumn2] != 0)
         {
+            hasCollision = brickWeights[tiles[tileRow2][tileColumn2]];
             bc -= 1;
             tiles[tileRow2][tileColumn2] = 0;
             ball->setVelocityY(ball->getVelocity().getY() * -1.);
@@ -72,6 +83,7 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
         
         if (tiles[tileRow3][tileColumn3] != 0)
         {
+            hasCollision = brickWeights[tiles[tileRow3][tileColumn3]];
             bc -= 1;
             tiles[tileRow3][tileColumn3] = 0;
             ball->setVelocityX(ball->getVelocity().getX() * -1.);
@@ -79,6 +91,7 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
         
         if (tiles[tileRow4][tileColumn4] != 0)
         {
+            hasCollision = brickWeights[tiles[tileRow4][tileColumn4]];
             bc -= 1;
             tiles[tileRow4][tileColumn4] = 0;
             ball->setVelocityX(ball->getVelocity().getX() * -1.);
@@ -86,6 +99,8 @@ void CollisionManager::checkBallBrickCollision(Ball* ball, const std::vector<Lay
 
         tileLayer->setTileIds(tiles);
     }
+    
+    return hasCollision;
 }
 
 bool CollisionManager::checkBallWallCollision(Ball* ball, Player* paddle)

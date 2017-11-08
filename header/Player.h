@@ -47,7 +47,19 @@ class Player : public SDLGameObject
         {
             return lives;
         }
+        
+        void setScore(int s)
+        {
+            score = s;
+        }
+        
+        int getScore()
+        {
+            return score;
+        }
+        
     private:
+        int score;
         int lives;
         bool gameBegin;
 };
